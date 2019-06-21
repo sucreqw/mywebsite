@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.WeiboMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.WeiboDO">
+        <id column="id" property="id" />
+        <result column="token" property="token" />
+        <result column="postday" property="postday" />
+        <result column="postip" property="postip" />
+        <result column="mid" property="mid" />
+        <result column="nickname" property="nickname" />
+        <result column="avater" property="avater" />
+        <result column="content" property="content" />
+        <result column="picurl" property="picurl" />
+    </resultMap>
+
+</mapper>

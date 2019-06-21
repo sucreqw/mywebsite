@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.GenerationsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.GenerationsDO">
+        <id column="id" property="id" />
+        <result column="nickname" property="nickname" />
+        <result column="wife" property="wife" />
+        <result column="gender" property="gender" />
+        <result column="father" property="father" />
+        <result column="sons" property="sons" />
+        <result column="details" property="details" />
+        <result column="generation" property="generation" />
+        <result column="birthday" property="birthday" />
+        <result column="avater" property="avater" />
+        <result column="cookie" property="cookie" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.UserDO">
+        <id column="id" property="id" />
+        <result column="token" property="token" />
+        <result column="regday" property="regday" />
+        <result column="regip" property="regip" />
+        <result column="uid" property="uid" />
+        <result column="nickname" property="nickname" />
+        <result column="psd" property="psd" />
+        <result column="refresh_token" property="refreshToken" />
+        <result column="isblock" property="isblock" />
+        <result column="cookie" property="cookie" />
+        <result column="avater" property="avater" />
+        <result column="ismanager" property="ismanager" />
+    </resultMap>
+
+</mapper>

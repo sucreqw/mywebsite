@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.22.131:33060/cool?useSSL=false&characterEncoding=utf-8
+    username: root
+    password: root
+
+logging:
+  level:
+    org.springframework.web: debug

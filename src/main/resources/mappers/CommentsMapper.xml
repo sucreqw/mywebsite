@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.CommentsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.CommentsDO">
+        <id column="id" property="id" />
+        <result column="postip" property="postip" />
+        <result column="postday" property="postday" />
+        <result column="nickname" property="nickname" />
+        <result column="token" property="token" />
+        <result column="avater" property="avater" />
+        <result column="content" property="content" />
+        <result column="wid" property="wid" />
+    </resultMap>
+
+</mapper>
