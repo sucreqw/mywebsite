@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: mywesite
+  profiles:
+    active: dev
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+server:
+  port: 8989
+  servlet:
+    context-path: /api
+
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.sucre.cool.mywebsite.entity
