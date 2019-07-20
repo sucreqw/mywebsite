@@ -66,6 +66,10 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, ShareDO> implemen
         if (StringUtils.isNotBlank(query)) {
             wrapper.like("content", query);
         }
+        if (StringUtils.isNotBlank(query)) {
+            wrapper.or();
+            wrapper.like("title", query);
+        }
         wrapper.orderByDesc("id");
         Page<ShareDO> shareDOPage = new Page<>(page, pageSize);
         return PageUtil.buildPage(baseMapper.selectPage(shareDOPage, wrapper), ShareInfo.class);

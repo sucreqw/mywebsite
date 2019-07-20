@@ -1,8 +1,10 @@
 package com.sucre.cool.mywebsite.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sucre.cool.mywebsite.common.HttpsUtil;
 import com.sucre.cool.mywebsite.common.PageUtil;
 import com.sucre.cool.mywebsite.common.PasswordEncoderUtil;
 import com.sucre.cool.mywebsite.common.UserUtil;
@@ -43,8 +45,8 @@ import java.util.Map;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements IUserService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    //@Autowired
+    //private RestTemplate restTemplate;
     @Autowired
     IThirdPlatformService iThirdPlatformService;
     /*@Value("${apiKey.sinaKey}")
@@ -126,23 +128,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public UserInfo callBack(String code) {
-        ThirdPlatformInfo thirdPlatformInfo=iThirdPlatformService.getThirdPlatformByName("sina");
+        ThirdPlatformInfo thirdPlatformInfo = iThirdPlatformService.getThirdPlatformByName("sina");
         String url = "https://api.weibo.com/oauth2/access_token";
-        //设置Http Header
-        HttpHeaders headers = new HttpHeaders();
-        //设置请求媒体数据类型
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        //设置返回媒体数据类型
-        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
-        param.add("client_id", thirdPlatformInfo.getAppId());
-        param.add("client_secret", thirdPlatformInfo.getAppSecret());
-        param.add("grant_type", "authorization_code");
-        param.add("redirect_uri", thirdPlatformInfo.getRedirect());
-        param.add("code", code);
-        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(param, headers);
+        String body = "client_id=" + thirdPlatformInfo.getAppId() + "&client_secret=" + thirdPlatformInfo.getAppSecret() + "&grant_type=authorization_code&redirect_uri=" + thirdPlatformInfo.getRedirect() + "&code=" + code + "&";
         JSONObject sinaToken;
         try {
-            sinaToken = restTemplate.postForObject(url, httpEntity, JSONObject.class);
+            String ret = HttpsUtil.httpsRequest(url, "POST", body);
+            sinaToken = JSONObject.parseObject(ret);
         } catch (Exception e) {
             throw new BizException(600, e.getMessage());
         }
@@ -160,10 +152,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         userDO = baseMapper.selectOne(wrapper);
         //没登录过，取新浪个人信息，插入数据库。
         if (userDO == null) {
-            url = "https://api.weibo.com/2/users/show.json?access_token=" + access_token + "&uid=" + uid + "&source" + thirdPlatformInfo.getAppId();
+            userDO = new UserDO();
+            url = "https://api.weibo.com/2/users/show.json?access_token=" + access_token + "&uid=" + uid + "&source=" + thirdPlatformInfo.getAppId() + "&";
             JSONObject sinaUserInfo;
             try {
-                sinaUserInfo = restTemplate.getForObject(url, JSONObject.class);
+                String ret = HttpsUtil.httpsRequest(url, "GET", null);
+                sinaUserInfo = JSONObject.parseObject(ret);
             } catch (Exception e) {
                 throw new BizException(600, e.getMessage());
             }
