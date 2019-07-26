@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.PayRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.PayRecordDO">
+        <id column="id" property="id" />
+        <result column="card_id" property="cardId" />
+        <result column="pay_date" property="payDate" />
+        <result column="amount" property="amount" />
+        <result column="currency" property="currency" />
+        <result column="detail" property="detail" />
+    </resultMap>
+
+</mapper>

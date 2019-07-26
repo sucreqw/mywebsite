@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sucre.cool.dao.CardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sucre.cool.mywebsite.entity.CardDO">
+        <id column="id" property="id" />
+        <result column="card_name" property="cardName" />
+        <result column="card_num" property="cardNum" />
+        <result column="phone" property="phone" />
+        <result column="card_date" property="cardDate" />
+        <result column="card_code" property="cardCode" />
+        <result column="bill_date" property="billDate" />
+        <result column="pay_date" property="payDate" />
+        <result column="min_use_count" property="minUseCount" />
+        <result column="card_detail" property="cardDetail" />
+    </resultMap>
+
+</mapper>
