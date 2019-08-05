@@ -36,7 +36,9 @@ public class PayRecordServiceImpl extends ServiceImpl<PayRecordMapper, PayRecord
         if (payRecordDO == null) {
             return;
         }
+        //System.out.println(payRecordDTO.getPayDate());
         BeanUtils.copyProperties(payRecordDTO, payRecordDO);
+        //System.out.println(payRecordDO.getPayDate());
         baseMapper.updateById(payRecordDO);
     }
 

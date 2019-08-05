@@ -1,6 +1,8 @@
 package com.sucre.cool.mywebsite.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sucre.cool.mywebsite.annotation.RequiredRole;
+import com.sucre.cool.mywebsite.common.RoleConstants;
 import com.sucre.cool.mywebsite.dto.PayRecordDTO;
 import com.sucre.cool.mywebsite.info.CommonResult;
 import com.sucre.cool.mywebsite.info.PayRecordInfo;
@@ -16,7 +18,7 @@ public class PayRecordController {
     @Autowired
     private IPayRecordService payRecordService;
 
-
+    @RequiredRole(RoleConstants.SYSUSER)
     @PostMapping("/")
     public CommonResult<Integer> create(@RequestBody PayRecordDTO payRecordDTO) {
         CommonResult<Integer> result = new CommonResult<>();
@@ -25,17 +27,19 @@ public class PayRecordController {
         return result;
     }
 
-
+    @RequiredRole(RoleConstants.SYSUSER)
     @PutMapping("/{id}")
     public void update(@PathVariable Integer id, @RequestBody PayRecordDTO payRecordDTO) {
         payRecordService.updatePayRecord(id, payRecordDTO);
     }
 
+    @RequiredRole(RoleConstants.SYSUSER)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         payRecordService.deletePayRecord(id);
     }
 
+    @RequiredRole(RoleConstants.SYSUSER)
     @GetMapping("/{id}")
     public CommonResult<PayRecordInfo> get(@PathVariable Integer id) {
         CommonResult<PayRecordInfo> result = new CommonResult<>();
@@ -44,10 +48,11 @@ public class PayRecordController {
         return result;
     }
 
+    @RequiredRole(RoleConstants.SYSUSER)
     @GetMapping("/page/{page}/{pageSize}")
     public CommonResult<Page<PayRecordInfo>> listPage(@PathVariable Integer page, @PathVariable Integer pageSize, Integer cardId, String query, String startTime, String endTime) {
         CommonResult<Page<PayRecordInfo>> result = new CommonResult<>();
-        Page<PayRecordInfo> list = payRecordService.listPage(page, pageSize, cardId,query,startTime,endTime);
+        Page<PayRecordInfo> list = payRecordService.listPage(page, pageSize, cardId, query, startTime, endTime);
         result.setData(list);
         return result;
     }
