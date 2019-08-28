@@ -29,8 +29,9 @@ public class PictureController {
         String path;
         try {
             //path = ResourceUtils.getURL("classpath:static").getPath() + "/weiboimg/";
-            path = FileUtil.getCurrentPath() + "/weiboimg/";
-            // System.out.println(getCurrentPath());
+            // path = FileUtil.getCurrentPath() + "/weiboimg/";//动态取当前目录问题太多,用脚本运行的时候会跑到root目录,所以干脆写死图片目录
+            path="/home/weiboimg/";
+            System.out.println(path);
             if (StringUtils.isNotBlank(path)) {
                 ArrayList<String> list = getFiles(path);
                 for (String name : list) {

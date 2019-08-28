@@ -1,5 +1,6 @@
 package com.sucre.cool.mywebsite.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PayRecordServiceImpl extends ServiceImpl<PayRecordMapper, PayRecordDO> implements IPayRecordService {
@@ -45,14 +50,14 @@ public class PayRecordServiceImpl extends ServiceImpl<PayRecordMapper, PayRecord
     @Override
     public Page<PayRecordInfo> listPage(Integer page, Integer pageSize, Integer cardId, String query, String startTime, String endTime) {
         QueryWrapper<PayRecordDO> wrapper = new QueryWrapper<>();
-        if (cardId!=null) {
+        if (cardId != null) {
             wrapper.eq("card_id", cardId);
         }
-        if(StringUtils.isNotBlank(query)){
-            wrapper.like("detail",query);
+        if (StringUtils.isNotBlank(query)) {
+            wrapper.like("detail", query);
         }
-        if(StringUtils.isNotBlank(startTime) && StringUtils.isNotBlank(endTime)){
-            wrapper.between("pay_date",startTime,endTime);
+        if (StringUtils.isNotBlank(startTime) && StringUtils.isNotBlank(endTime)) {
+            wrapper.between("pay_date", startTime, endTime);
         }
 
         wrapper.orderByDesc("id");
@@ -70,4 +75,30 @@ public class PayRecordServiceImpl extends ServiceImpl<PayRecordMapper, PayRecord
         BeanUtils.copyProperties(payRecordDO, payRecordInfo);
         return payRecordInfo;
     }
+
+    @Override
+    public Integer payRecordCount(Wrapper<PayRecordDO> queryWrapper) {
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public Map<String, Object> payRecordSum(Wrapper<PayRecordDO> queryWrapper) {
+        List<PayRecordDO> list = baseMapper.selectList(queryWrapper);
+        Map<String, Object> result = new HashMap<>();
+        BigDecimal amountUS = new BigDecimal("0.00");
+        BigDecimal amount = new BigDecimal("0.00");
+        for (PayRecordDO temp : list) {
+            if (temp.getCurrency() == 1) {
+                amountUS = amountUS.add(temp.getAmount());
+            } else {
+                amount = amount.add(temp.getAmount());
+            }
+        }
+        result.put("RMB", amount);
+        result.put("USD", amountUS);
+
+        return result;
+    }
+
+
 }

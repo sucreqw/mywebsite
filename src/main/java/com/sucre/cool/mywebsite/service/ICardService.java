@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sucre.cool.mywebsite.dto.CardDTO;
 import com.sucre.cool.mywebsite.entity.CardDO;
+import com.sucre.cool.mywebsite.info.CardGatherInfo;
 import com.sucre.cool.mywebsite.info.CardInfo;
 
 public interface ICardService extends IService<CardDO> {
@@ -16,4 +17,5 @@ public interface ICardService extends IService<CardDO> {
     Page<CardInfo> listPage(Integer page, Integer pageSize, String query);
 
     CardInfo getCard(Integer id);
+
 }
