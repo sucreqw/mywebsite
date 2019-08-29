@@ -43,8 +43,8 @@ public class CardGatherImpl implements ICardGatherService {
                 //查询此卡当月刷卡次数.
                 QueryWrapper<PayRecordDO> monthWrapper = new QueryWrapper<>();
                 monthWrapper.eq("card_id", cardInfo.getId());
-                String startTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) ) + "-" + cardInfo.getBillDate();
-                String endTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + (Integer.parseInt(cardInfo.getBillDate())-1);
+                String startTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) ) + "-" + (cardInfo.getBillDate()+1);
+                String endTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + (Integer.parseInt(cardInfo.getBillDate()));
                 monthWrapper.between("pay_date", startTime, endTime);
                 Integer monthCount = iPayRecordService.payRecordCount(monthWrapper);
                 Map<String,Object> monthSum=iPayRecordService.payRecordSum(monthWrapper);
