@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mywesite
+    name: mywebsite
   profiles:
     active: dev
   http:
