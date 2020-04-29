@@ -54,38 +54,38 @@ public class UserController {
         iUserService.deleteUser(id);
     }
 
-    @RequiredRole(RoleConstants.SYSUSER)
-    @GetMapping("/{id}")
-    public CommonResult<UserInfo> get(@PathVariable Integer id) {
-        CommonResult<UserInfo> result = new CommonResult<>();
-        UserInfo userInfo = iUserService.getUser(id);
-        result.setData(userInfo);
-        return result;
-    }
-
-    @RequiredRole(RoleConstants.SYSUSER)
-    @GetMapping("/page/{page}/{pageSize}")
-    public CommonResult<Page<UserInfo>> listPage(@PathVariable Integer page, @PathVariable Integer pageSize, String query) {
-        CommonResult<Page<UserInfo>> result = new CommonResult<>();
-        Page<UserInfo> list = iUserService.listPage(page, pageSize, query);
-        result.setData(list);
-        return result;
-    }
-
-
-    @PostMapping("/login")
-    public CommonResult<String> login(@RequestBody UserDTO userDTO){
-        CommonResult<String> result=new CommonResult<>();
-        UserInfo userInfo=iUserService.getUserByToken(userDTO.getToken());
-        if(userInfo==null){
-            throw new BizException(ResultCodeEnum.ACCOUNT_ERROR);
+@RequiredRole(RoleConstants.SYSUSER)
+        @GetMapping("/{id}")
+        public CommonResult<UserInfo> get(@PathVariable Integer id) {
+            CommonResult<UserInfo> result = new CommonResult<>();
+            UserInfo userInfo = iUserService.getUser(id);
+            result.setData(userInfo);
+            return result;
         }
-        if (!PasswordEncoderUtil.eq(userDTO.getPsd(), userInfo.getPsd())) {
-            throw new BizException(ResultCodeEnum.PASSWORD_ERROR);
+
+        @RequiredRole(RoleConstants.SYSUSER)
+        @GetMapping("/page/{page}/{pageSize}")
+        public CommonResult<Page<UserInfo>> listPage(@PathVariable Integer page, @PathVariable Integer pageSize, String query) {
+            CommonResult<Page<UserInfo>> result = new CommonResult<>();
+            Page<UserInfo> list = iUserService.listPage(page, pageSize, query);
+            result.setData(list);
+            return result;
         }
+
+
+        @PostMapping("/login")
+        public CommonResult<String> login(@RequestBody UserDTO userDTO){
+            CommonResult<String> result=new CommonResult<>();
+            UserInfo userInfo=iUserService.getUserByToken(userDTO.getToken());
+            if(userInfo==null){
+                throw new BizException(ResultCodeEnum.ACCOUNT_ERROR);
+            }
+            if (!PasswordEncoderUtil.eq(userDTO.getPsd(), userInfo.getPsd())) {
+                throw new BizException(ResultCodeEnum.PASSWORD_ERROR);
+            }
         /*String token;
         if(userInfo.getIsmanager()==1) {*/
-           String token = JWT.create().withClaim("sysUser", JSON.toJSONString(userInfo)).sign(Algorithm.HMAC256(PasswordEncoderUtil.KEY));
+            String token = JWT.create().withClaim("sysUser", JSON.toJSONString(userInfo)).sign(Algorithm.HMAC256(PasswordEncoderUtil.KEY));
        /* }else{
             token=JWT.create().withClaim("user", JSON.toJSONString(userInfo)).sign(Algorithm.HMAC256(PasswordEncoderUtil.KEY));
         }*/

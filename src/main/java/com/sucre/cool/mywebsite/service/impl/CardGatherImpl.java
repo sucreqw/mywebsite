@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * 信用卡信息汇总.
+ * 信用卡信息汇总.20200429 发现bug,现在取卡的方式 遇到 id不连续的情况，后面的卡就取不到了，以后修复。
  */
 @Service
 public class CardGatherImpl implements ICardGatherService {
