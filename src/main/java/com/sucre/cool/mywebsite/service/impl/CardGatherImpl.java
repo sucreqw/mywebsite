@@ -1,6 +1,7 @@
 package com.sucre.cool.mywebsite.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sucre.cool.mywebsite.entity.CardDO;
 import com.sucre.cool.mywebsite.entity.PayRecordDO;
 import com.sucre.cool.mywebsite.info.CardGatherInfo;
 import com.sucre.cool.mywebsite.info.CardInfo;
@@ -25,15 +26,16 @@ public class CardGatherImpl implements ICardGatherService {
 
     @Override
     public List<CardGatherInfo> getSum() {
-        int id = 1;
-        CardInfo cardInfo = null;
         List<CardGatherInfo> cardGatherInfos = new ArrayList<>();
 
         Date date = new Date();
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        do {
-            cardInfo = iCardService.getCard(id);
+
+        List<CardDO> list = iCardService.allCard();
+        for (CardDO cardInfo : list) {
+
+
             if (cardInfo != null) {
                 CardGatherInfo cardGatherInfo = new CardGatherInfo();
 
@@ -43,11 +45,11 @@ public class CardGatherImpl implements ICardGatherService {
                 //查询此卡当月刷卡次数.
                 QueryWrapper<PayRecordDO> monthWrapper = new QueryWrapper<>();
                 monthWrapper.eq("card_id", cardInfo.getId());
-                String startTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) ) + "-" + (Integer.parseInt(cardInfo.getBillDate())+1);
-                String endTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + cardInfo.getBillDate();
+                String startTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)) + "-" + (Integer.parseInt(cardInfo.getBillDate()) + 1);
+                String endTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + cardInfo.getBillDate();
                 monthWrapper.between("pay_date", startTime, endTime);
                 Integer monthCount = iPayRecordService.payRecordCount(monthWrapper);
-                Map<String,Object> monthSum=iPayRecordService.payRecordSum(monthWrapper);
+                Map<String, Object> monthSum = iPayRecordService.payRecordSum(monthWrapper);
                 cardGatherInfo.setMonthCount(monthCount);
                 cardGatherInfo.setMonthSum(monthSum);
                 //查询此卡当年刷卡次数.
@@ -57,16 +59,14 @@ public class CardGatherImpl implements ICardGatherService {
                 endTime = calendar.get(Calendar.YEAR) + "-12-31";
                 yearWrapper.between("pay_date", startTime, endTime);
                 Integer yearCount = iPayRecordService.payRecordCount(yearWrapper);
-                Map<String,Object> yearSum=iPayRecordService.payRecordSum(yearWrapper);
+                Map<String, Object> yearSum = iPayRecordService.payRecordSum(yearWrapper);
                 cardGatherInfo.setYearCount(yearCount);
                 cardGatherInfo.setYearSum(yearSum);
 
 
                 cardGatherInfos.add(cardGatherInfo);
             }
-            id++;
-        } while (cardInfo != null);
-
+        }
 
         return cardGatherInfos;
     }

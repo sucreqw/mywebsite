@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CardServiceImpl extends ServiceImpl<CardMapper, CardDO> implements ICardService {
     @Override
@@ -58,5 +60,12 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardDO> implements 
         CardInfo cardInfo = new CardInfo();
         BeanUtils.copyProperties(cardDO, cardInfo);
         return cardInfo;
+    }
+
+    @Override
+    public List<CardDO> allCard() {
+        QueryWrapper<CardDO> wrapper = new QueryWrapper<>();
+        List<CardDO> list=baseMapper.selectList(wrapper);
+        return list;
     }
 }

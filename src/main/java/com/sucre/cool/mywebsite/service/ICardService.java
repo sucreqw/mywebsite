@@ -7,6 +7,8 @@ import com.sucre.cool.mywebsite.entity.CardDO;
 import com.sucre.cool.mywebsite.info.CardGatherInfo;
 import com.sucre.cool.mywebsite.info.CardInfo;
 
+import java.util.List;
+
 public interface ICardService extends IService<CardDO> {
     Integer createCard(CardDTO cardDTO);
 
@@ -18,4 +20,5 @@ public interface ICardService extends IService<CardDO> {
 
     CardInfo getCard(Integer id);
 
+    List<CardDO> allCard();
 }
